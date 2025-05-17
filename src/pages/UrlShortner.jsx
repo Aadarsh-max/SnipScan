@@ -46,7 +46,7 @@ const UrlShortner = () => {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 py-10">
       <div className="bg-gray-800 p-8 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md text-center text-white">
-        <h1 className="text-3xl font-bold mb-6">🔗 URL Shortener</h1>
+        <h1 className="text-3xl font-bold mb-6">🔗Welcome To SnipScan</h1>
 
         <input
           type="text"
