@@ -5,7 +5,7 @@ const UrlShortner = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortData, setShortData] = useState(null);
 
-  const API_BASE_URL = 'https://url-shortner-backend-pi.vercel.app/';
+  const API_BASE_URL = 'https://url-shortner-backend-pi.vercel.app';
 
   const handleShorten = async () => {
     if (!originalUrl.trim()) return;
