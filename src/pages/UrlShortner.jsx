@@ -4,17 +4,35 @@ import axios from 'axios';
 const UrlShortner = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortData, setShortData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const API_BASE_URL = 'https://url-shortner-backend-pi.vercel.app';
+
+  const isValidUrl = (url) => {
+    try {
+      const validUrl = new URL(url);
+      return ['http:', 'https:'].includes(validUrl.protocol);
+    } catch {
+      return false;
+    }
+  };
 
   const handleShorten = async () => {
     if (!originalUrl.trim()) return;
 
-    const formattedUrl = originalUrl.trim();
+    if (!isValidUrl(originalUrl.trim())) {
+      setError('Please enter a valid URL (starting with http:// or https://)');
+      setShortData(null);
+      return;
+    }
+
+    setError('');
+    setLoading(true);
 
     try {
       const res = await axios.post(`${API_BASE_URL}/api/short`, {
-        originalUrl: formattedUrl,
+        originalUrl: originalUrl.trim(),
       });
 
       setShortData({
@@ -24,6 +42,9 @@ const UrlShortner = () => {
     } catch (err) {
       console.error('Failed to shorten URL:', err);
       setShortData(null);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,74 +65,75 @@ const UrlShortner = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 py-10">
-      <div className="bg-gray-800 p-8 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md text-center text-white">
-        <h1 className="text-3xl font-bold mb-6">🔗Welcome To SnipScan</h1>
-        <h2 className="text-2xl font-semibold mb-6">Enter a long URL to shorten it! </h2>
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-10">
+      <div className="bg-white p-6 sm:p-8 rounded-xl shadow-md w-full max-w-md border">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">🔗 SnipScan</h1>
+        <p className="text-gray-600 text-center mb-6">Paste a valid URL to shorten it.</p>
 
         <input
           type="text"
-          placeholder="Enter your long URL"
+          placeholder="https://example.com"
           value={originalUrl}
           onChange={(e) => setOriginalUrl(e.target.value)}
-          className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg mb-5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 border border-gray-300 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+
+        {error && (
+          <div className="text-red-600 text-sm mb-3 text-left">
+            {error}
+          </div>
+        )}
 
         <button
           onClick={handleShorten}
-          disabled={!originalUrl.trim()}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold transition-all disabled:opacity-50"
+          disabled={!originalUrl.trim() || loading}
+          className={`w-full ${
+            loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+          } text-white py-2.5 rounded-md font-medium transition-all`}
         >
-          Shorten URL
+          {loading ? 'Shortening...' : 'Shorten URL'}
         </button>
 
         {shortData && shortData.shortUrl && (
-          <div className="mt-8 p-5 border border-gray-700 rounded-xl bg-gray-700">
-            <div className="text-gray-300 mb-2 text-sm">Your shortened URL:</div>
-            <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
+          <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
+            <div className="text-gray-600 mb-2 text-sm">Your shortened URL:</div>
+            <div className="flex items-center gap-2 mb-3">
               <a
                 href={shortData.shortUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-500 transition-colors text-sm"
+                className="font-mono text-blue-600 underline text-sm"
               >
                 {getShortCode(shortData.shortUrl)}
               </a>
 
               <button
                 onClick={() => copyToClipboard(shortData.shortUrl)}
-                className="bg-gray-600 p-2 rounded-md hover:bg-gray-500"
-                title="Copy to clipboard"
+                className="text-sm px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
               >
-                📋
+                📋 Copy
               </button>
             </div>
 
-            <div className="text-sm text-gray-400 mb-1 break-all">
+            <div className="text-sm text-gray-500 break-all mb-2">
               Full URL:{' '}
               <a
                 href={shortData.shortUrl}
-                className="underline hover:text-blue-400"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="text-blue-500 underline"
               >
                 {shortData.shortUrl}
               </a>
             </div>
 
-            <div className="text-xs text-gray-500 mb-4">
-              Click the URL or scan the QR code to visit the website
-            </div>
-
             {shortData.qrCodeImg && (
               <div className="mt-4 flex justify-center">
-                <div className="p-2 border border-gray-600 bg-gray-800 rounded-lg inline-block">
-                  <img
-                    src={shortData.qrCodeImg}
-                    alt="QR Code for shortened URL"
-                    className="w-32 h-32"
-                  />
-                </div>
+                <img
+                  src={shortData.qrCodeImg}
+                  alt="QR Code"
+                  className="w-32 h-32 border border-gray-200 p-1 rounded"
+                />
               </div>
             )}
           </div>
