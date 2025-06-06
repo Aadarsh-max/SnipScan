@@ -102,20 +102,20 @@ const UrlShortner = () => {
 
         {shortData && shortData.shortUrl && (
           <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
-            <div className="text-gray-600 mb-2 text-sm">Your shortened URL:</div>
+            <div className="text-gray-600 mb-2 text-sm justify-center">Your shortened URL:</div>
             <div className="flex items-center gap-2 mb-3">
               <a
                 href={shortData.shortUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-blue-600 underline text-sm cursor-pointer"
+                className="font-mono text-blue-600 underline text-sm cursor-pointer justify-center"
               >
                 {getShortCode(shortData.shortUrl)}
               </a>
 
               <button
                 onClick={() => copyToClipboard(shortData.shortUrl)}
-                className="text-sm px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer"
+                className="text-sm px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 justify-center cursor-pointer"
               >
                 📋 Copy
               </button>
