@@ -87,10 +87,16 @@ const UrlShortner = () => {
         <button
           onClick={handleShorten}
           disabled={!originalUrl.trim() || loading}
-          className={`w-full ${
+          className={`w-full flex items-center justify-center gap-2 ${
             loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-          } text-white py-2.5 rounded-md font-medium transition-all`}
+          } text-white py-2.5 rounded-md font-medium transition-all cursor-pointer`}
         >
+          {loading && (
+            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+          )}
           {loading ? 'Shortening...' : 'Shorten URL'}
         </button>
 
@@ -102,14 +108,14 @@ const UrlShortner = () => {
                 href={shortData.shortUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-blue-600 underline text-sm"
+                className="font-mono text-blue-600 underline text-sm cursor-pointer"
               >
                 {getShortCode(shortData.shortUrl)}
               </a>
 
               <button
                 onClick={() => copyToClipboard(shortData.shortUrl)}
-                className="text-sm px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                className="text-sm px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer"
               >
                 📋 Copy
               </button>
@@ -121,7 +127,7 @@ const UrlShortner = () => {
                 href={shortData.shortUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 underline"
+                className="text-blue-500 underline cursor-pointer"
               >
                 {shortData.shortUrl}
               </a>
