@@ -1,12 +1,26 @@
-# React + Vite
+# 🔗 SnipScan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**SnipScan** is a fully responsive, single-page URL shortener application built using the **MERN stack** (MongoDB, Express.js, React, Node.js). It allows users to quickly shorten long URLs into compact, shareable links, each with a unique 5–8 character code. Additionally, SnipScan generates QR codes for every shortened URL, making it easy to scan and access across all devices.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 🔗 Shorten long URLs with ease
+- ✨ Generate unique 5–8 character short codes
+- 📱 Create QR codes for every short link
+- 📊 Track visits and redirection
+- 📦 Built with a scalable and modern MERN architecture
+- 📱 Fully responsive design optimized for all devices
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** React, Tailwind CSS (or other styling solution used)
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **QR Code Generation:** `qrcode` or similar package
+- **Unique Code Generation:** `nanoid` or custom logic
+
+---
